@@ -1,6 +1,6 @@
 import * as React from "react";
 import { DraggableEventHandler, default as DraggableRoot } from "react-draggable";
-import { Enable, Resizable, ResizeDirection } from "re-resizable";
+import { Enable, Resizable, ResizeDirection } from "creep-re-resizable";
 
 // FIXME: https://github.com/mzabriskie/react-draggable/issues/381
 //         I can not find `scale` too...
