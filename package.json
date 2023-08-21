@@ -1,6 +1,6 @@
 {
   "name": "creep-react-rnd",
-  "version": "13.3.7",
+  "version": "2.2.8",
   "description": "",
   "title": "react-rnd",
   "main": "./lib/index.es5.js",
@@ -31,14 +31,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bokuweb/react-rnd.git"
+    "url": "https://github.com/hustLer2k/react-rnd"
   },
   "author": "bokuweb",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bokuweb/react-rnd/issues"
+    "url": "https://github.com/hustLer2k/react-rnd"
   },
-  "homepage": "https://github.com/bokuweb/react-rnd",
+  "homepage": "https://github.com/hustLer2k/react-rnd",
   "devDependencies": {
     "@babel/cli": "7.17.6",
     "@babel/core": "7.17.5",
