@@ -1,6 +1,6 @@
 {
   "name": "creep-react-rnd",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "title": "react-rnd",
   "main": "./lib/index.es5.js",
