@@ -1,11 +1,6 @@
 import * as React from "react";
-import { DraggableEventHandler, default as DraggableRoot } from "react-draggable";
+import Draggable, { DraggableEventHandler } from "react-draggable";
 import { Enable, Resizable, ResizeDirection } from "creep-re-resizable";
-
-// FIXME: https://github.com/mzabriskie/react-draggable/issues/381
-//         I can not find `scale` too...
-type $TODO = any;
-const Draggable: any = DraggableRoot;
 
 export type Grid = [number, number];
 
@@ -209,7 +204,7 @@ export class Rnd extends React.PureComponent<Props, State> {
     onDragStop: () => {},
   };
   resizable!: Resizable;
-  draggable!: $TODO; // Draggable;
+  draggable!: Draggable;
   resizingPosition = { x: 0, y: 0 };
   offsetFromParent = { left: 0, top: 0 };
   resizableElement: { current: HTMLElement | null } = { current: null };
@@ -363,7 +358,7 @@ export class Rnd extends React.PureComponent<Props, State> {
     if (!this.props.onDrag) return;
     const { left, top } = this.offsetFromParent;
     if (!this.props.dragAxis || this.props.dragAxis === "both") {
-      return this.props.onDrag(e, { ...data, x: data.x - left, y: data.y - top });
+      return this.props.onDrag(e, { ...data, x: data.x + left, y: data.y + top });
     } else if (this.props.dragAxis === "x") {
       return this.props.onDrag(e, { ...data, x: data.x + left, y: this.originalPosition.y + top, deltaY: 0 });
     } else if (this.props.dragAxis === "y") {
@@ -432,7 +427,7 @@ export class Rnd extends React.PureComponent<Props, State> {
         if (maxHeight && typeof maxHeight === "string") {
           if (maxHeight.endsWith("%")) {
             const ratio = Number(maxHeight.replace("%", "")) / 100;
-            maxHeight = parentSize.width * ratio;
+            maxHeight = parentSize.height * ratio;
           } else if (maxHeight.endsWith("px")) {
             maxHeight = Number(maxHeight.replace("px", ""));
           }
@@ -494,9 +489,9 @@ export class Rnd extends React.PureComponent<Props, State> {
     const newPos = { x: this.originalPosition.x, y: this.originalPosition.y };
     const left = -delta.width;
     const top = -delta.height;
-    const directions = ["top", "left", "topLeft", "bottomLeft", "topRight"];
+    const directions: ResizeDirection[] = ["top", "left", "topLeft", "bottomLeft", "topRight"];
 
-    if (directions.indexOf(direction) !== -1) {
+    if (directions.includes(direction)) {
       if (direction === "bottomLeft") {
         newPos.x += left;
       } else if (direction === "topRight") {
@@ -507,7 +502,8 @@ export class Rnd extends React.PureComponent<Props, State> {
       }
     }
 
-    if (newPos.x !== this.draggable.state.x || newPos.y !== this.draggable.state.y) {
+    const draggableState = this.draggable.state as unknown as { x: number; y: number };
+    if (newPos.x !== draggableState.x || newPos.y !== draggableState.y) {
       this.draggable.setState(newPos);
     }
 
@@ -572,7 +568,7 @@ export class Rnd extends React.PureComponent<Props, State> {
     };
   }
 
-  refDraggable = (c: $TODO) => {
+  refDraggable = (c: Draggable) => {
     if (!c) return;
     this.draggable = c;
   };
@@ -642,6 +638,7 @@ export class Rnd extends React.PureComponent<Props, State> {
         handle={dragHandleClassName ? `.${dragHandleClassName}` : undefined}
         defaultPosition={defaultValue}
         onMouseDown={onMouseDown}
+        // @ts-expect-error
         onMouseUp={onMouseUp}
         onStart={this.onDragStart}
         onDrag={this.onDrag}
